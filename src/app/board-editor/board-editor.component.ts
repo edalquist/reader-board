@@ -12,8 +12,8 @@ export class BoardEditorComponent implements OnInit {
   newSign = new FormControl('');
   oldChars = {};
   newChars = {};
-  lettersToBring: LetterDiff[];
-  lettersLeftover: LetterDiff[];
+  lettersToBring: LetterDiff[] = [];
+  lettersLeftover: LetterDiff[] = [];
 
   constructor() { }
 
@@ -31,7 +31,7 @@ export class BoardEditorComponent implements OnInit {
   generateCharacterMap(text: String) {
     const charMap = {};
     for (const char of text.toUpperCase()) {
-      if (char == '\n') continue;
+      if (char == '\n' || char == ' ') continue;
       charMap[char] = (charMap[char] + 1) || 1;
     }
     return charMap;
