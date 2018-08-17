@@ -1,14 +1,14 @@
-<label>Old:
-  <textarea [formControl]="oldSign"></textarea>
-</label>
-<br/>
-<label>New:
-  <textarea [formControl]="newSign"></textarea>
-</label>
+<h3>Old Sign:</h3>
+<textarea [formControl]="oldSign" rows="4" cols="40"></textarea>
+
+<h3>New Sign:</h3>
+<textarea [formControl]="newSign" rows="4" cols="40"></textarea>
+
 <h3>Letters to Bring:</h3>
 <ul class="letterDiffList">
   <li *ngFor="let letterDiff of lettersToBring"><pre>"{{letterDiff.letter}}" - {{letterDiff.count}}</pre></li>
 </ul>
+
 <h3>Letters to Leftover:</h3>
 <ul class="letterDiffList">
   <li *ngFor="let letterDiff of lettersLeftover"><pre>"{{letterDiff.letter}}" - {{letterDiff.count}}</pre></li>
