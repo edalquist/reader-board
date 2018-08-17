@@ -38,7 +38,7 @@ export class BoardEditorComponent implements OnInit {
   }
 
   updateSignDiff() {
-    const charDiff = {...this.newChars};
+    const charDiff = { ...this.newChars };
     for (const char of Object.keys(this.oldChars)) {
       if (char in this.newChars) {
         charDiff[char] = this.newChars[char] - this.oldChars[char];
@@ -55,6 +55,7 @@ export class BoardEditorComponent implements OnInit {
         this.lettersToBring.push(new LetterDiff(char, count));
       } else if (count < 0) {
         this.lettersLeftover.push(new LetterDiff(char, count));
+      }
     }
   }
 }
