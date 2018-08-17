@@ -1,0 +1,6 @@
+.letterDiffList li {
+    list-style-type: none;
+}
+.letterDiffList li pre {
+    margin: 0em;
+}
