@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { LetterDiff } from '../sign';
+import { LetterDiff, Letter } from '../sign';
+import { LETTERS } from '../mock-signs';
 
 @Component({
   selector: 'app-board-editor',
@@ -8,8 +9,12 @@ import { LetterDiff } from '../sign';
   styleUrls: ['./board-editor.component.css'],
 })
 export class BoardEditorComponent implements OnInit {
+  letters = LETTERS;
+  letterHash = new Map<String, Letter>();
+
   oldSign = new FormControl('');
   newSign = new FormControl('');
+  oldCharArray: String[] = [];
   oldChars = {};
   newChars = {};
   lettersToBring: LetterDiff[] = [];
@@ -18,14 +23,24 @@ export class BoardEditorComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    for (const letter of this.letters) {
+      for (const char of letter.chars) {
+        this.letterHash[char] = letter;
+      }
+    }
+
     this.oldSign.valueChanges.subscribe(args => {
+      args = args.toUpperCase();
       this.oldChars = this.generateCharacterMap(args);
+      this.oldCharArray = args.split('');
       this.updateSignDiff();
     });
     this.newSign.valueChanges.subscribe(args => {
+      args = args.toUpperCase();
       this.newChars = this.generateCharacterMap(args);
       this.updateSignDiff();
     });
+    this.oldSign.setValue('test');
   }
 
   generateCharacterMap(text: String) {

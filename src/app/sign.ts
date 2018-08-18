@@ -11,3 +11,22 @@ export class LetterDiff {
         this.count = count;
     }
 }
+
+export class Letter {
+    chars: string[];
+    width: number;
+    quantity: number;
+
+    static c(char: string, width: number, quantity: number) {
+        return new this([char], width, quantity);
+    }
+    static cs(chars: string[], width: number, quantity: number) {
+        return new this(chars, width, quantity);
+    }
+
+    constructor(chars: string[], width: number, quantity: number) {
+        this.chars = chars;
+        this.width = width;
+        this.quantity = quantity;
+    }
+}

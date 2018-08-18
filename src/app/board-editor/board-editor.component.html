@@ -1,5 +1,8 @@
 <h3>Old Sign:</h3>
-<textarea [formControl]="oldSign" rows="4" cols="40"></textarea>
+<textarea class="signInput" [formControl]="oldSign" rows="4" cols="40"></textarea>
+<div class="formattedSign">
+  <div *ngFor="let c of oldCharArray" class="letter_{{c}}">{{c}}</div>
+</div>
 
 <h3>New Sign:</h3>
 <textarea [formControl]="newSign" rows="4" cols="40"></textarea>

@@ -1,6 +1,34 @@
+@font-face {
+    font-family: "ROADWAY";
+    src: url("/assets/fonts/ROADWAY_.ttf");
+}
+
 .letterDiffList li {
     list-style-type: none;
 }
 .letterDiffList li pre {
     margin: 0em;
+}
+
+.formattedSign {
+    font-family: 'ROADWAY', Fallback, sans-serif;
+    font-weight: bold;
+    font-size: 1.5em;
+    display: flex;
+}
+.formattedSign div {
+    width: .5em;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    border-style: solid;
+    border-color: lightgray;
+    border-width: 1px;
+    margin-left: -1px;
+}
+.formattedSign .letter_E {
+    width: 1em;
+}
+.formattedSign .letter_I {
+    width: .3em;
 }
