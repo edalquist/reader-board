@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { LetterDiff, Letter } from '../sign';
-import { LETTERS } from '../mock-signs';
+import { LetterDef } from 'src/app/model/letter-def'
+import { LetterBox } from 'src/app/model/letter-box'
+import { LetterBank } from 'src/app/model/letter-bank'
 
 @Component({
   selector: 'app-board-editor',
@@ -9,25 +10,25 @@ import { LETTERS } from '../mock-signs';
   styleUrls: ['./board-editor.component.css'],
 })
 export class BoardEditorComponent implements OnInit {
-  letters = LETTERS;
-  letterHash = new Map<String, Letter>();
-
+  letterBox = new LetterBox();
+  letterBank = LetterBank(this.letterBox);
+  
   oldSign = new FormControl('');
   newSign = new FormControl('');
   oldCharArray: String[] = [];
   oldChars = {};
   newChars = {};
-  lettersToBring: LetterDiff[] = [];
-  lettersLeftover: LetterDiff[] = [];
+  // lettersToBring: LetterDiff[] = [];
+  // lettersLeftover: LetterDiff[] = [];
 
   constructor() { }
 
   ngOnInit() {
-    for (const letter of this.letters) {
-      for (const char of letter.chars) {
-        this.letterHash[char] = letter;
-      }
-    }
+    // for (const letter of this.letters) {
+    //   for (const char of letter.chars) {
+    //     this.letterHash[char] = letter;
+    //   }
+    // }
 
     this.oldSign.valueChanges.subscribe(args => {
       args = args.toUpperCase();
@@ -62,15 +63,15 @@ export class BoardEditorComponent implements OnInit {
       }
     }
 
-    this.lettersToBring = [];
-    this.lettersLeftover = []
+    // this.lettersToBring = [];
+    // this.lettersLeftover = []
     for (const char of Object.keys(charDiff).sort()) {
       const count = charDiff[char];
-      if (count > 0) {
-        this.lettersToBring.push(new LetterDiff(char, count));
-      } else if (count < 0) {
-        this.lettersLeftover.push(new LetterDiff(char, count));
-      }
+      // if (count > 0) {
+      //   this.lettersToBring.push(new LetterDiff(char, count));
+      // } else if (count < 0) {
+      //   this.lettersLeftover.push(new LetterDiff(char, count));
+      // }
     }
   }
 }

@@ -1,3 +1,6 @@
+import { Set, Map } from 'immutable'
+// import {} from
+
 export class Sign {
     id: number;
     message: string;
@@ -13,20 +16,6 @@ export class LetterDiff {
 }
 
 export class Letter {
-    chars: string[];
-    width: number;
+    readonly chars: Set<string>;
     quantity: number;
-
-    static c(char: string, width: number, quantity: number) {
-        return new this([char], width, quantity);
-    }
-    static cs(chars: string[], width: number, quantity: number) {
-        return new this(chars, width, quantity);
-    }
-
-    constructor(chars: string[], width: number, quantity: number) {
-        this.chars = chars;
-        this.width = width;
-        this.quantity = quantity;
-    }
 }

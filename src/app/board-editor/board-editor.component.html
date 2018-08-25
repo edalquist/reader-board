@@ -3,6 +3,9 @@
 <div class="formattedSign">
   <div *ngFor="let c of oldCharArray" class="letter_{{c}}">{{c}}</div>
 </div>
+<div>
+  <div *ngFor="let e of letterBank.bank">{{bank.key}} - {{bank.value.count}}</div>
+</div>
 
 <h3>New Sign:</h3>
 <textarea [formControl]="newSign" rows="4" cols="40"></textarea>
