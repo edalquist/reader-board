@@ -6,25 +6,87 @@ import { LetterDef } from 'src/app/model/letter-def'
  */
 export class LetterBox {
     readonly inventory: Map<string, LetterDef>;
-    private available: {[key: string]: LetterCount} = {};
+    // TODO is there a way to clone this in TS?
+    private available: {[key: string]: number} = {};
 
     constructor() {
         const accumulator: {[key: string]: LetterDef} = {};
         for (const letter of LETTERS) {
             letter.chars.forEach(char => {
                 accumulator[char] = letter;
-                this.available[char] = new LetterCount(letter);
+                this.available[char] = letter.quantity;
             });
         }
         this.inventory = Map(accumulator);
     }
+    
+    getSignState(oldText: string, newText: string): LetterState {
+        // Always upper case inputs
+        oldText = oldText.toUpperCase();
+        newText = newText.toUpperCase();
+
+        // Create remaining map that new letters will get subtracted fun
+        const remaining: {[key: string]: number} = {};
+        this.inventory.forEach(letterDef => {
+            letterDef.chars.forEach(char => {
+                remaining[char] = letterDef.quantity;
+            });
+        });
+
+        // Create char > number mapping of old text data
+        const charsToReturn = this.generateCharacterMap(oldText);
+        const charsToBring: {[key: string]: number} = {};
+
+        // Iterate through new text, deducting from remaining and oldChars
+        for (const char of newText) {
+            if (char == '\n' || char == ' ') {
+                continue;
+            }
+            // Count against the remaining
+            if (remaining[char] != undefined) {
+                remaining[char] = remaining[char] - 1;
+            } else {
+                remaining[char] = -1;
+            }
+            // Track letters to bring and what will come back
+            if (charsToReturn[char] > 0) {
+                charsToReturn[char] = charsToReturn[char] - 1;
+            } else {
+                charsToBring[char] = charsToBring[char] + 1;
+            }
+        }
+
+        return new LetterState(remaining, charsToBring, charsToReturn);
+    }
+
+    private generateCharacterMap(text: String) {
+      const charMap: {[key: string]: number} = {};
+      for (const char of text.toUpperCase()) {
+        if (char == '\n' || char == ' ') {
+            continue;
+        }
+        if (charMap[char] != undefined) {
+            charMap[char] = charMap[char] + 1;
+        } else {
+            charMap[char] = 1;
+        }
+      }
+      return charMap;
+    }
 }
 
-class LetterCount {
-    count: number;
+/**
+ * Sign state based on current inventory/old/new
+ */
+export class LetterState {
+    readonly remaining: Map<string, number>;
+    readonly charsToBring: Map<string, number>;
+    readonly charsToReturn: Map<string, number>;
 
-    constructor(def: LetterDef) {
-        this.count = def.quantity;
+    constructor(remaining: {[key: string]: number}, charsToBring: {[key: string]: number}, charsToReturn: {[key: string]: number}) {
+        this.remaining = Map(remaining);
+        this.charsToBring = Map(charsToBring);
+        this.charsToReturn = Map(charsToReturn);
     }
 }
 
