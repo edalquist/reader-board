@@ -1,5 +1,15 @@
 {
   "projects": {
-    "prod": "reader-board"
+    "prod": "reader-board",
+    "default": "reader-board"
+  },
+  "targets": {
+    "reader-board": {
+      "hosting": {
+        "reader-board": [
+          "reader-board"
+        ]
+      }
+    }
   }
 }

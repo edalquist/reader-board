@@ -1,0 +1,20 @@
+<mat-card class="dashboard-card">
+  <!-- <mat-card-header>
+    <mat-card-title>
+      What to Bring
+    </mat-card-title>
+  </mat-card-header> -->
+  <mat-card-content class="dashboard-card-content">
+    <h3>Letters to Bring: {{lettersToBring?.length}}</h3>
+    <ul class="letterDiffList">
+      <li *ngFor="let letterDiff of lettersToBring"><pre>"{{letterDiff.letter}}" - {{letterDiff.count}}</pre></li>
+    </ul>
+    
+    <h3>Letters to Leftover: {{lettersLeftover?.length}}</h3>
+    <ul class="letterDiffList">
+      <li *ngFor="let letterDiff of lettersLeftover"><pre>"{{letterDiff.letter}}" - {{letterDiff.count}}</pre></li>
+    </ul>
+  </mat-card-content>
+</mat-card>
+
+

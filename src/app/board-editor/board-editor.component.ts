@@ -1,7 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { LetterDef } from 'src/app/model/letter-def'
-import { LetterBox, LetterState } from 'src/app/model/letter-box'
+import { Component, OnInit, Input, Output, EventEmitter, NgZone, ViewChild } from '@angular/core';
+import { MatInput } from '@angular/material/input';
+import { MatFormField } from '@angular/material/form-field';
+import {CdkTextareaAutosize} from '@angular/cdk/text-field';
+import {take} from 'rxjs/operators';
+import {BoardService} from 'src/app/board.service';
+import {Board} from 'src/app/board';
+import { TilePosition } from '@angular/material/grid-list/tile-coordinator';
+
 
 @Component({
   selector: 'app-board-editor',
@@ -9,32 +14,33 @@ import { LetterBox, LetterState } from 'src/app/model/letter-box'
   styleUrls: ['./board-editor.component.css'],
 })
 export class BoardEditorComponent implements OnInit {
-  letterBox = new LetterBox();
-  letterState: LetterState;
+  @Input() title: string;
+  @Input() initValue: string;
 
-  oldSign = new FormControl('');
-  newSign = new FormControl('');
+  @Output() boardValue: EventEmitter<string> = new EventEmitter();
 
-  constructor() { }
+  currentValue: string;
+  
+  constructor(private _ngZone: NgZone) {}
 
-  ngOnInit() {
-    this.updateSignDiff();
-    this.oldSign.valueChanges.subscribe(this.updateSignDiff);
-    this.newSign.valueChanges.subscribe(this.updateSignDiff);
-
-    this.oldSign.setValue('test');
+  ngOnInit(): void {
+    this.sendBoard(this.initValue);
   }
 
-  generateCharacterMap(text: String) {
-    const charMap = {};
-    for (const char of text.toUpperCase()) {
-      if (char == '\n' || char == ' ') continue;
-      charMap[char] = (charMap[char] + 1) || 1;
+  @ViewChild('autosize', {static: false}) autosize: CdkTextareaAutosize;
+
+  triggerResize() {
+    // Wait for changes to be applied, then trigger textarea resize.
+    this._ngZone.onStable.pipe(take(1))
+        .subscribe(() => this.autosize.resizeToFitContent(true));
+  }
+
+  sendBoard(board: string) {
+    if (!board) {
+      board = "";
     }
-    return charMap;
-  }
-
-  updateSignDiff() {
-    this.letterState = this.letterBox.getSignState(this.oldSign.value, this.newSign.value);
+    board = board.toUpperCase();
+    this.currentValue = board;
+    this.boardValue.emit(board);
   }
 }

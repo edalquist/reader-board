@@ -1,0 +1,17 @@
+<div class="grid-container">
+  <h1 class="mat-h1">Dashboard</h1>
+  <mat-grid-list cols="2" rowHeight="350px">
+    <!-- <mat-grid-tile *ngFor="let card of cards | async" [colspan]="card.cols" [rowspan]="card.rows">
+      <app-board-editor [title]="card.title"></app-board-editor>
+    </mat-grid-tile> -->
+    <mat-grid-tile>
+      <app-board-editor title="Old Board" [initValue]="board.content" (boardValue)="setOldContent($event)"></app-board-editor>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <app-board-editor title="New Board" (boardValue)="setNewContent($event)"></app-board-editor>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="2">
+      <app-board-diff [lettersToBring]="lettersToBring" [lettersLeftover]="lettersLeftover"></app-board-diff>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

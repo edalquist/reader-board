@@ -1,11 +1,19 @@
-<h3>Old Sign:</h3>
-<textarea class="signInput" [formControl]="oldSign" rows="4" cols="40"></textarea>
-<div class="formattedSign">
-  <div *ngFor="let c of oldSign.value" class="letter_{{c}}">{{c}}</div>
-</div>
-<div>
-  <div *ngFor="let e of letterState.available">{{key}} - {{value}}</div>
-</div>
-
-<h3>New Sign:</h3>
-<textarea [formControl]="newSign" rows="4" cols="40"></textarea>
+<mat-card class="dashboard-card">
+  <mat-card-header>
+    <mat-card-title>
+      {{title}}
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="dashboard-card-content">
+      <textarea matInput
+      #board
+      cdkTextareaAutosize
+      #autosize="cdkTextareaAutosize"
+      cdkAutosizeMinRows="4"
+      cdkAutosizeMaxRows="8"
+      cols="50"
+      value="{{initValue}}"
+      (input)="sendBoard(board.value)"></textarea>
+      <div>{{currentValue}}</div>
+  </mat-card-content>
+</mat-card>
